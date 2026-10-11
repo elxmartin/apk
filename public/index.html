@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Workspace</title>
-    <link rel="stylesheet" href="./res/css/style.css?v=2">
+    <link rel="stylesheet" href="./res/css/style.css?v=3">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="./res/js/theme.js?v=2"></script>
+    <script src="./res/js/theme.js?v=3"></script>
 </head>
 <body>
 
@@ -35,30 +35,6 @@
                 <p class="page-subtitle">Private workspace overview</p>
             </div>
 
-            <div class="controls-group">
-                <button class="btn icon-btn" onclick="setEncryptionKey()">
-                    <i data-lucide="key"></i>
-                    <span id="key-indicator">Key: Unset</span>
-                </button>
-                <button class="btn icon-btn" onclick="clearKey()">
-                    <i data-lucide="trash-2"></i>
-                </button>
-
-                <div class="notification-center" style="position: relative;">
-                    <button class="btn icon-btn" onclick="toggleNotifications()">
-                        <i data-lucide="bell"></i>
-                        <span id="notif-badge" class="badge badge-idle" style="background:#ef4444; color:#fff; display:none;">0</span>
-                    </button>
-                    <div id="notif-dropdown" class="modal-content" style="display:none; position:absolute; right:0; top:45px; width:320px; z-index:100; padding:1rem;">
-                        <h4 style="margin-bottom:0.5rem; border-bottom:1px solid var(--border); padding-bottom:0.5rem; display:flex; align-items:center; gap:0.5rem;">
-                            <i data-lucide="bell-ring" style="width:16px; height:16px;"></i> System Notifications
-                        </h4>
-                        <ul id="notif-list" style="list-style:none; max-height:200px; overflow-y:auto; font-size:0.8rem; color:var(--text-muted); padding:0; margin:0;">
-                            <li>No new notifications.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </header>
 
         <section class="status-strip" aria-label="Workspace status">
@@ -133,7 +109,7 @@
         </div>
     </div>
 
-    <script src="./res/js/crypto.js?v=2"></script>
-    <script src="./res/js/app.js?v=2"></script>
+    <script src="./res/js/crypto.js?v=3"></script>
+    <script src="./res/js/app.js?v=3"></script>
 </body>
 </html>

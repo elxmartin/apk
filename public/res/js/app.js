@@ -1,46 +1,27 @@
 let cachedHistory = [];
 let cveChartInstance = null;
-let notifications = [];
 const API_BASE = window.API_BASE || 'https://apk.locamartin.workers.dev';
 
 /**
- * Key Utility Helpers
+ * Decryption Key Helper
  */
-function updateKeyIndicator() {
-    const hasKey = !!sessionStorage.getItem("REPORT_ENCRYPTION_KEY");
-    const indicator = document.getElementById("key-indicator");
-    if (indicator) {
-        indicator.innerText = hasKey ? "Key: Active" : "Key: Unset";
-        indicator.style.color = hasKey ? "#22c55e" : "#94a3b8";
-    }
-}
-
-function setEncryptionKey() {
-    const key = prompt("Enter Report Decryption Key:");
-    if (key) {
-        sessionStorage.setItem("REPORT_ENCRYPTION_KEY", key);
-        updateKeyIndicator();
-        fetchStatus();
-    }
-}
-
-function clearKey() {
-    sessionStorage.removeItem("REPORT_ENCRYPTION_KEY");
-    updateKeyIndicator();
-    cachedHistory = [];
-    renderTable();
-}
-
 function getDecryptionKey() {
-    let key = sessionStorage.getItem("REPORT_ENCRYPTION_KEY");
+    let key = window.REPORT_ENCRYPTION_KEY || sessionStorage.getItem("REPORT_ENCRYPTION_KEY");
     if (!key) {
-        key = prompt("Enter Decryption Key:");
+        key = prompt("Enter Decryption Key to inspect report:");
         if (key) {
             sessionStorage.setItem("REPORT_ENCRYPTION_KEY", key);
-            updateKeyIndicator();
         }
     }
     return key;
+}
+
+function promptKeyAndFetch() {
+    const key = prompt("Enter Report Decryption Key:");
+    if (key) {
+        sessionStorage.setItem("REPORT_ENCRYPTION_KEY", key);
+        fetchStatus();
+    }
 }
 
 function formatAppName(pkg) {
@@ -50,57 +31,51 @@ function formatAppName(pkg) {
     return targetSegment.charAt(0).toUpperCase() + targetSegment.slice(1);
 }
 
-function addNotification(msg) {
-    const timestamp = new Date().toLocaleTimeString();
-    notifications.unshift(`[${timestamp}] ${msg}`);
-    const badge = document.getElementById("notif-badge");
-    const list = document.getElementById("notif-list");
-    
-    if (badge) {
-        badge.textContent = notifications.length;
-        badge.style.display = notifications.length > 0 ? "inline-block" : "none";
-    }
-    if (list) {
-        list.innerHTML = notifications.map(n => `<li style="padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.05);">${n}</li>`).join("");
-    }
-}
-
-function toggleNotifications() {
-    const dropdown = document.getElementById("notif-dropdown");
-    if (dropdown) {
-        dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
-    }
-}
-
 async function fetchStatus() {
-    const passKey = sessionStorage.getItem('REPORT_ENCRYPTION_KEY');
-    if (!passKey) {
-        cachedHistory = [];
-        renderTable();
-        return;
-    }
+    const passKey = window.REPORT_ENCRYPTION_KEY || sessionStorage.getItem('REPORT_ENCRYPTION_KEY');
     try {
         const response = await fetch(`${API_BASE}/api/status?v=${Date.now()}`, { cache: 'no-store' });
         if (!response.ok) throw new Error(`Status request failed (${response.status}).`);
-        const data = JSON.parse(await decryptRawPayload(await response.text(), passKey));
+        
+        const rawPayload = await response.text();
+        let data = null;
 
-        const stateBadge = document.getElementById('state');
-        if (stateBadge) {
-            const statusText = data.status || 'Idle';
-            stateBadge.textContent = statusText;
-            stateBadge.className = `badge ${statusText === 'Analyzing' ? 'badge-analyzing' : 'badge-idle'}`;
+        // Support plain JSON if unencrypted
+        try {
+            data = JSON.parse(rawPayload);
+        } catch {
+            // Encrypted payload
+            if (passKey && typeof decryptRawPayload === 'function') {
+                try {
+                    const decrypted = await decryptRawPayload(rawPayload, passKey);
+                    data = JSON.parse(decrypted);
+                } catch (decErr) {
+                    console.warn("Decryption failed with stored key:", decErr);
+                }
+            }
         }
 
-        const currentAppEl = document.getElementById('current-app');
-        if (currentAppEl) currentAppEl.textContent = data.current_app || 'None';
+        if (data) {
+            const stateBadge = document.getElementById('state');
+            if (stateBadge) {
+                const statusText = data.status || 'Idle';
+                stateBadge.textContent = statusText;
+                stateBadge.className = `badge ${statusText === 'Analyzing' ? 'badge-analyzing' : 'badge-idle'}`;
+            }
 
-        const progressEl = document.getElementById('progress');
-        if (progressEl) progressEl.textContent = `${data.completed || 0} / ${data.total || 0}`;
+            const currentAppEl = document.getElementById('current-app');
+            if (currentAppEl) currentAppEl.textContent = data.current_app || 'None';
 
-        cachedHistory = Array.isArray(data.history) ? data.history : [];
-        updateRiskMetrics();
-        renderTable();
-        updateCveChart();
+            const progressEl = document.getElementById('progress');
+            if (progressEl) progressEl.textContent = `${data.completed || 0} / ${data.total || 0}`;
+
+            cachedHistory = Array.isArray(data.history) ? data.history : [];
+            updateRiskMetrics();
+            renderTable();
+            updateCveChart();
+        } else {
+            renderTable();
+        }
     } catch (e) {
         console.error("Dashboard polling error:", e);
     }
@@ -136,7 +111,15 @@ function renderTable() {
     });
 
     if (filtered.length === 0) {
-        list.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">No records found. (Ensure Key is active)</td></tr>`;
+        const passKey = window.REPORT_ENCRYPTION_KEY || sessionStorage.getItem('REPORT_ENCRYPTION_KEY');
+        if (!passKey && cachedHistory.length === 0) {
+            list.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 1.5rem; color: var(--text-muted);">
+                <span>Records are encrypted.</span>
+                <button class="btn btn-primary" style="margin-left: 0.75rem; padding: 0.35rem 0.75rem; font-size: 0.75rem;" onclick="promptKeyAndFetch()">Unlock Records</button>
+            </td></tr>`;
+        } else {
+            list.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted); padding: 1.5rem;">No matching records found.</td></tr>`;
+        }
         return;
     }
 
@@ -264,8 +247,82 @@ function closeModal() {
     if (modal) modal.style.display = "none";
 }
 
+/**
+ * Sidebar Navigation & Scroll Handler
+ */
+function setupSidebarNavigation() {
+    const links = document.querySelectorAll('.sidebar-link');
+    if (!links.length) return;
+
+    function setActiveLink(hash) {
+        const targetHash = hash || '#overview';
+        links.forEach(link => {
+            if (link.getAttribute('href') === targetHash) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    links.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').replace('#', '');
+            const targetEl = document.getElementById(targetId);
+
+            if (targetEl) {
+                history.pushState(null, null, `#${targetId}`);
+                setActiveLink(`#${targetId}`);
+
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                // Luminous feedback ring
+                targetEl.classList.add('section-highlight');
+                setTimeout(() => {
+                    targetEl.classList.remove('section-highlight');
+                }, 1200);
+
+                // Focus search box if navigating to records
+                if (targetId === 'records') {
+                    const searchInput = document.getElementById('search');
+                    if (searchInput) {
+                        setTimeout(() => searchInput.focus(), 300);
+                    }
+                }
+            }
+        });
+    });
+
+    if (window.location.hash) {
+        setActiveLink(window.location.hash);
+        const initialEl = document.getElementById(window.location.hash.replace('#', ''));
+        if (initialEl) {
+            setTimeout(() => {
+                initialEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 150);
+        }
+    }
+
+    // Scroll spy for automatic sidebar tab highlighting as user scrolls
+    const sectionIds = ['overview', 'coverage', 'activity', 'records'];
+    const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+    if (window.IntersectionObserver) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setActiveLink(`#${entry.target.id}`);
+                }
+            });
+        }, { threshold: 0.35 });
+
+        sections.forEach(sec => observer.observe(sec));
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    updateKeyIndicator();
+    setupSidebarNavigation();
     if (window.lucide) {
         lucide.createIcons();
     }
