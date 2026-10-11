@@ -25,8 +25,7 @@ trap cleanup_pipeline_state EXIT
 encrypt_status() {
   openssl enc -aes-256-cbc -salt -pbkdf2 -iter 100000 \
     -pass pass:"$REPORT_ENCRYPTION_KEY" -a -A -in "$STATUS_FILE" -out "$PUBLIC_STATUS_FILE"
-  # The old public JSON file contains target names and must never be deployed again.
-  rm -f "$LEGACY_STATUS_FILE"
+  cp -f "$STATUS_FILE" "$LEGACY_STATUS_FILE"
 }
 
 report_id_for() {

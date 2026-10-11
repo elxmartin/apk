@@ -1,4 +1,7 @@
-var ALLOWED_REPORT_FILES = /* @__PURE__ */ new Set(["secrets.txt.enc", "mobsfscan.json.enc", "cve.json.enc"]);
+var ALLOWED_REPORT_FILES = /* @__PURE__ */ new Set([
+  "secrets.txt.enc", "mobsfscan.json.enc", "cve.json.enc",
+  "secrets.txt", "mobsfscan.json", "cve.json"
+]);
 
 var worker_default = {
   async fetch(request, env) {
@@ -17,7 +20,7 @@ var worker_default = {
       const isGetOrHead = request.method === "GET" || request.method === "HEAD";
 
       if (url.pathname === "/api/status" && isGetOrHead) {
-        return await fetchProtectedAsset("/status.enc", env, headers);
+        return await handleStatusRequest(env, headers);
       }
       if (url.pathname === "/api/report" && isGetOrHead) {
         return await handleReportRequest(url, env, headers);
@@ -38,12 +41,57 @@ var worker_default = {
   }
 };
 
+async function handleStatusRequest(env, headers) {
+  const siteOrigin = (env.PUBLIC_SITE_ORIGIN || "https://elxmartin.github.io/apk").replace(/\/$/, "");
+
+  // 1. Try serving unencrypted status.json if available
+  try {
+    const jsonResponse = await fetch(`${siteOrigin}/status.json?v=${Date.now()}`, { cf: { cacheTtl: 30, cacheEverything: true } });
+    if (jsonResponse.ok) {
+      const text = await jsonResponse.text();
+      return new Response(text, {
+        status: 200,
+        headers: { ...headers, "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" }
+      });
+    }
+  } catch (err) {
+    console.warn("Could not fetch unencrypted status.json:", err);
+  }
+
+  // 2. Fallback to status.enc (and decrypt with REPORT_ENCRYPTION_KEY if present)
+  return await fetchProtectedAsset("/status.enc", env, headers);
+}
+
 async function handleReportRequest(url, env, headers) {
   const id = url.searchParams.get("id") || "";
   const file = url.searchParams.get("file") || "";
   if (!/^[a-f0-9]{64}$/.test(id) || !ALLOWED_REPORT_FILES.has(file)) {
     return textResponse("Not found", 404, headers);
   }
+
+  const siteOrigin = (env.PUBLIC_SITE_ORIGIN || "https://elxmartin.github.io/apk").replace(/\/$/, "");
+  const unencryptedFile = file.replace(/\.enc$/, "");
+
+  // If unencrypted version exists on GitHub Pages, serve it directly
+  if (file.endsWith(".enc")) {
+    try {
+      const plainRes = await fetch(`${siteOrigin}/reports/${id}/${unencryptedFile}?v=${Date.now()}`, { cf: { cacheTtl: 60, cacheEverything: true } });
+      if (plainRes.ok) {
+        const isJson = unencryptedFile.endsWith(".json");
+        return new Response(plainRes.body, {
+          status: 200,
+          headers: {
+            ...headers,
+            "Content-Type": isJson ? "application/json; charset=utf-8" : "text/plain; charset=utf-8",
+            "Cache-Control": "no-store"
+          }
+        });
+      }
+    } catch (e) {
+      // Fall through to protected asset fetch
+    }
+  }
+
   return fetchProtectedAsset(`/reports/${id}/${file}`, env, headers);
 }
 

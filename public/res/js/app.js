@@ -44,8 +44,16 @@ async function fetchStatus() {
         try {
             data = JSON.parse(rawPayload);
         } catch {
-            // Encrypted payload
-            if (passKey && typeof decryptRawPayload === 'function') {
+            // If worker returned raw encrypted payload, try direct ./status.json from Pages
+            try {
+                const directRes = await fetch(`./status.json?v=${Date.now()}`, { cache: 'no-store' });
+                if (directRes.ok) {
+                    data = await directRes.json();
+                }
+            } catch {}
+
+            // Fallback to client-side decrypt if passKey is available
+            if (!data && passKey && typeof decryptRawPayload === 'function') {
                 try {
                     const decrypted = await decryptRawPayload(rawPayload, passKey);
                     data = JSON.parse(decrypted);
@@ -215,6 +223,17 @@ async function viewReport(reportId, packageName, fileName) {
         let payloadText = await response.text();
 
         // Check if payload is still encrypted (OpenSSL Salted__ Base64)
+        if (payloadText.startsWith("U2FsdGVk")) {
+            // Try fetching unencrypted version directly from GitHub Pages
+            try {
+                const unenc = fileName.replace('.enc', '');
+                const directReport = await fetch(`./reports/${reportId}/${unenc}?v=${Date.now()}`);
+                if (directReport.ok) {
+                    payloadText = await directReport.text();
+                }
+            } catch {}
+        }
+
         if (payloadText.startsWith("U2FsdGVk")) {
             const passKey = getDecryptionKey();
             if (!passKey) {

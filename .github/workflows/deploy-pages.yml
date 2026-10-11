@@ -7,7 +7,7 @@ on:
     paths:
       - 'public/**'
       - 'theme.json'
-      - '.github/workflows/deploy-pages.yml'
+      - '.github/**'
   workflow_dispatch:
 
 permissions:
@@ -28,6 +28,25 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Decrypt Status and Reports for Public Dashboard
+        env:
+          REPORT_ENCRYPTION_KEY: ${{ secrets.REPORT_ENCRYPTION_KEY }}
+        run: |
+          if [ -n "$REPORT_ENCRYPTION_KEY" ]; then
+            if [ -f "public/status.enc" ]; then
+              echo "[+] Decrypting status.enc to status.json..."
+              openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 \
+                -pass pass:"$REPORT_ENCRYPTION_KEY" -a -A -in "public/status.enc" -out "public/status.json" || true
+            fi
+
+            echo "[+] Decrypting report bundles..."
+            find public/reports -name "*.enc" | while read -r enc_file; do
+              out_file="${enc_file%.enc}"
+              openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 \
+                -pass pass:"$REPORT_ENCRYPTION_KEY" -a -A -in "$enc_file" 2>/dev/null | gzip -d > "$out_file" 2>/dev/null || true
+            done
+          fi
 
       - name: Bundle Static Assets for Pages
         run: |
