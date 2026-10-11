@@ -2,75 +2,6 @@ let cachedHistory = [];
 let cveChartInstance = null;
 let notifications = [];
 const API_BASE = 'https://apkrack.locamartin.workers.dev';
-const SESSION_TOKEN_KEY = 'WORKSPACE_SESSION_TOKEN';
-
-function getSessionToken() {
-    return sessionStorage.getItem(SESSION_TOKEN_KEY);
-}
-
-async function submitLogin(event) {
-    event.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const error = document.getElementById('login-error');
-    const submit = document.getElementById('login-submit');
-
-    error.textContent = '';
-    submit.disabled = true;
-    submit.querySelector('span').textContent = 'Signing in…';
-    try {
-        const response = await fetch(`${API_BASE}/api/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-        });
-        const result = await response.json().catch(() => ({}));
-        if (!response.ok) {
-            const message = result.error === 'username_invalid'
-                ? 'Username is incorrect.'
-                : result.error === 'password_invalid'
-                    ? 'Password is incorrect.'
-                    : result.error === 'password_verifier_invalid'
-                        ? 'Password verifier configuration is invalid.'
-                    : 'Unable to sign in. Please try again.';
-            throw new Error(message);
-        }
-        if (!result.token) throw new Error('Unable to start a session.');
-        sessionStorage.setItem(SESSION_TOKEN_KEY, result.token);
-        document.getElementById('password').value = '';
-        addNotification('Session started.');
-        checkAuthentication();
-    } catch (err) {
-        error.textContent = err.message || 'Unable to sign in.';
-    } finally {
-        submit.disabled = false;
-        submit.querySelector('span').textContent = 'Continue';
-    }
-}
-
-/**
- * Enforces mandatory login screen before displaying dashboard
- */
-function checkAuthentication() {
-    const token = getSessionToken();
-    const overlay = document.getElementById("login-overlay");
-    const app = document.getElementById("dashboard-app");
-
-    if (token) {
-        if (overlay) overlay.style.display = "none";
-        if (app) app.style.display = "block";
-        fetchStatus();
-    } else {
-        if (overlay) overlay.style.display = "flex";
-        if (app) app.style.display = "none";
-    }
-}
-
-function logoutSession() {
-    sessionStorage.removeItem(SESSION_TOKEN_KEY);
-    sessionStorage.removeItem("REPORT_ENCRYPTION_KEY");
-    window.location.reload();
-}
 
 /**
  * Key Utility Helpers
@@ -96,6 +27,8 @@ function setEncryptionKey() {
 function clearKey() {
     sessionStorage.removeItem("REPORT_ENCRYPTION_KEY");
     updateKeyIndicator();
+    cachedHistory = [];
+    renderTable();
 }
 
 function getDecryptionKey() {
@@ -147,10 +80,7 @@ async function fetchStatus() {
         return;
     }
     try {
-        const response = await fetch(`${API_BASE}/api/status`, {
-            headers: { Authorization: `Bearer ${getSessionToken()}` },
-            cache: 'no-store'
-        });
+        const response = await fetch(`${API_BASE}/api/status`, { cache: 'no-store' });
         if (!response.ok) throw new Error(`Status request failed (${response.status}).`);
         const data = JSON.parse(await decryptRawPayload(await response.text(), passKey));
 
@@ -173,7 +103,6 @@ async function fetchStatus() {
         updateCveChart();
     } catch (e) {
         console.error("Dashboard polling error:", e);
-        if (e.message.includes('401') || e.message.includes('403')) logoutSession();
     }
 }
 
@@ -207,7 +136,7 @@ function renderTable() {
     });
 
     if (filtered.length === 0) {
-        list.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">No records found.</td></tr>`;
+        list.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">No records found. (Ensure Key is active)</td></tr>`;
         return;
     }
 
@@ -301,15 +230,13 @@ async function viewReport(reportId, packageName, fileName) {
     }
 
     modalTitle.textContent = `${packageName} — ${fileName.replace('.enc', '')}`;
-    modalBody.textContent = "Authenticating & Fetching report payload...";
+    modalBody.textContent = "Fetching report payload...";
     modal.style.display = "block";
 
     try {
         if (!reportId) throw new Error('This protected report needs to be migrated by the pipeline.');
         const workerUrl = `${API_BASE}/api/report?id=${encodeURIComponent(reportId)}&file=${encodeURIComponent(fileName)}`;
-        const headers = { Authorization: `Bearer ${getSessionToken()}` };
-
-        const response = await fetch(workerUrl, { headers });
+        const response = await fetch(workerUrl);
 
         if (!response.ok) {
             const errText = await response.text();
@@ -338,15 +265,12 @@ function closeModal() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('login-form').addEventListener('submit', submitLogin);
-    checkAuthentication();
     updateKeyIndicator();
     if (window.lucide) {
         lucide.createIcons();
     }
+    fetchStatus();
     setInterval(() => {
-        if (getSessionToken()) {
-            fetchStatus();
-        }
+        fetchStatus();
     }, 5000); 
 });

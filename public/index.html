@@ -11,28 +11,8 @@
 </head>
 <body>
 
-    <!-- Credentials are verified by the Worker; none are embedded in this page. -->
-    <div id="login-overlay" class="login-overlay">
-        <div class="login-card">
-            <div class="login-mark" aria-hidden="true"><i data-lucide="shield-check"></i></div>
-            <p class="eyebrow">PRIVATE WORKSPACE</p>
-            <h1>Sign in</h1>
-            <p class="login-copy">Enter your workspace credentials to continue.</p>
-            <form id="login-form" class="login-form" novalidate>
-                <label for="username">Username</label>
-                <input id="username" name="username" type="text" autocomplete="username" required>
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password" autocomplete="current-password" required>
-                <p id="login-error" class="login-error" role="alert" aria-live="polite"></p>
-                <button id="login-submit" class="btn btn-primary login-submit" type="submit">
-                    <span>Continue</span><i data-lucide="arrow-right"></i>
-                </button>
-            </form>
-        </div>
-    </div>
-
     <!-- Protected Application Dashboard Container -->
-    <div id="dashboard-app" class="workspace-shell" style="display: none;">
+    <div id="dashboard-app" class="workspace-shell">
         <aside class="sidebar" aria-label="Workspace navigation">
             <div class="sidebar-brand">
                 <span class="brand-mark"><i data-lucide="shield-check"></i></span>
@@ -45,7 +25,7 @@
                 <a class="sidebar-link" href="#coverage"><i data-lucide="chart-no-axes-column"></i> Coverage</a>
                 <a class="sidebar-link" href="#activity"><i data-lucide="activity"></i> Activity</a>
             </nav>
-            <div class="sidebar-footer"><span class="status-dot"></span> Secure session</div>
+            <div class="sidebar-footer"><span class="status-dot"></span> Live session</div>
         </aside>
 
         <main class="dashboard-main">
@@ -62,9 +42,6 @@
                 </button>
                 <button class="btn icon-btn" onclick="clearKey()">
                     <i data-lucide="trash-2"></i>
-                </button>
-                <button class="btn icon-btn" style="border-color: #ef4444; color: #ef4444;" onclick="logoutSession()">
-                    <i data-lucide="log-out"></i> Logout
                 </button>
 
                 <div class="notification-center" style="position: relative;">
