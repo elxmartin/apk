@@ -51,10 +51,98 @@ async function fetchProtectedAsset(path, env, headers) {
   const siteOrigin = (env.PUBLIC_SITE_ORIGIN || "https://elxmartin.github.io/apk").replace(/\/$/, "");
   const assetResponse = await fetch(`${siteOrigin}${path}`, { cf: { cacheTtl: 60, cacheEverything: true } });
   if (!assetResponse.ok) return textResponse("Not found", assetResponse.status, headers);
-  return new Response(assetResponse.body, {
+
+  const rawText = await assetResponse.text();
+  const encryptionKey = env.REPORT_ENCRYPTION_KEY;
+
+  if (encryptionKey) {
+    try {
+      const decrypted = await decryptRawPayload(rawText, encryptionKey);
+      const isJson = path.endsWith(".json.enc") || path.endsWith("/status.enc") || decrypted.trim().startsWith("{") || decrypted.trim().startsWith("[");
+      return new Response(decrypted, {
+        status: 200,
+        headers: {
+          ...headers,
+          "Content-Type": isJson ? "application/json; charset=utf-8" : "text/plain; charset=utf-8",
+          "Cache-Control": "no-store"
+        }
+      });
+    } catch (decErr) {
+      console.error("Worker decryption error:", decErr);
+    }
+  }
+
+  return new Response(rawText, {
     status: 200,
     headers: { ...headers, "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" }
   });
+}
+
+async function decryptRawPayload(base64Str, passphrase) {
+  const cleanBase64 = base64Str.replace(/\s+/g, '');
+  let rawBinary;
+  try {
+    rawBinary = Uint8Array.from(atob(cleanBase64), c => c.charCodeAt(0));
+  } catch (e) {
+    throw new Error("Failed to decode Base64 payload.");
+  }
+
+  if (rawBinary.length < 16) {
+    throw new Error("Payload size too short for valid OpenSSL container.");
+  }
+
+  const magic = new TextDecoder().decode(rawBinary.subarray(0, 8));
+  if (magic !== "Salted__") {
+    return base64Str;
+  }
+
+  const salt = rawBinary.subarray(8, 16);
+  const ciphertext = rawBinary.subarray(16);
+
+  const enc = new TextEncoder();
+  const passKey = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(passphrase),
+    { name: "PBKDF2" },
+    false,
+    ["deriveBits"]
+  );
+
+  const derivedBits = await crypto.subtle.deriveBits(
+    {
+      name: "PBKDF2",
+      salt: salt,
+      iterations: 100000,
+      hash: "SHA-256"
+    },
+    passKey,
+    384
+  );
+
+  const keyBytes = derivedBits.slice(0, 32);
+  const ivBytes = derivedBits.slice(32, 48);
+
+  const aesKey = await crypto.subtle.importKey(
+    "raw",
+    keyBytes,
+    { name: "AES-CBC" },
+    false,
+    ["decrypt"]
+  );
+
+  const decryptedGzipBuffer = await crypto.subtle.decrypt(
+    { name: "AES-CBC", iv: ivBytes },
+    aesKey,
+    ciphertext
+  );
+
+  // Decompress Gzip Stream if compressed
+  try {
+    const stream = new Response(decryptedGzipBuffer).body.pipeThrough(new DecompressionStream('gzip'));
+    return await new Response(stream).text();
+  } catch {
+    return new TextDecoder().decode(decryptedGzipBuffer);
+  }
 }
 
 function normalizeOrigin(val) {
@@ -70,7 +158,6 @@ function responseHeaders(request, env) {
   const requestOrigin = request.headers.get("Origin");
   let allowOrigin = "*";
 
-  // If DASHBOARD_ORIGIN is specified and not wildcard
   if (env.DASHBOARD_ORIGIN && env.DASHBOARD_ORIGIN !== "*") {
     const configuredOrigins = env.DASHBOARD_ORIGIN.split(",").map(o => normalizeOrigin(o)).filter(Boolean);
     if (requestOrigin && configuredOrigins.includes(requestOrigin)) {
@@ -78,7 +165,6 @@ function responseHeaders(request, env) {
     } else if (configuredOrigins.includes("*")) {
       allowOrigin = requestOrigin || "*";
     } else if (requestOrigin) {
-      // Allow any requesting origin when auth is disabled so project can be merged anywhere
       allowOrigin = requestOrigin;
     } else if (configuredOrigins.length > 0) {
       allowOrigin = configuredOrigins[0];
@@ -98,7 +184,6 @@ function responseHeaders(request, env) {
 }
 
 function isAllowedOrigin(request, env) {
-  // Authentication is disabled; allow all origins so project can be merged into any site/origin
   return true;
 }
 

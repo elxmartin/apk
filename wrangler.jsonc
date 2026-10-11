@@ -10,6 +10,7 @@
   },
   "vars": {
     "DASHBOARD_ORIGIN": "*",
-    "PUBLIC_SITE_ORIGIN": "https://elxmartin.github.io/apk"
+    "PUBLIC_SITE_ORIGIN": "https://elxmartin.github.io/apk",
+    "REPORT_ENCRYPTION_KEY": ""
   }
 }

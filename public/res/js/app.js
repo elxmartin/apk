@@ -111,15 +111,7 @@ function renderTable() {
     });
 
     if (filtered.length === 0) {
-        const passKey = window.REPORT_ENCRYPTION_KEY || sessionStorage.getItem('REPORT_ENCRYPTION_KEY');
-        if (!passKey && cachedHistory.length === 0) {
-            list.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 1.5rem; color: var(--text-muted);">
-                <span>Records are encrypted.</span>
-                <button class="btn btn-primary" style="margin-left: 0.75rem; padding: 0.35rem 0.75rem; font-size: 0.75rem;" onclick="promptKeyAndFetch()">Unlock Records</button>
-            </td></tr>`;
-        } else {
-            list.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted); padding: 1.5rem;">No matching records found.</td></tr>`;
-        }
+        list.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted); padding: 1.5rem;">No matching records found.</td></tr>`;
         return;
     }
 
@@ -206,12 +198,6 @@ async function viewReport(reportId, packageName, fileName) {
 
     if (!modal || !modalTitle || !modalBody) return;
 
-    const passKey = getDecryptionKey();
-    if (!passKey) {
-        alert("Decryption passphrase is required to view encrypted reports.");
-        return;
-    }
-
     modalTitle.textContent = `${packageName} — ${fileName.replace('.enc', '')}`;
     modalBody.textContent = "Fetching report payload...";
     modal.style.display = "block";
@@ -226,16 +212,24 @@ async function viewReport(reportId, packageName, fileName) {
             throw new Error(`Worker Error (${response.status}): ${errText}`);
         }
 
-        const encryptedBase64 = await response.text();
-        modalBody.textContent = "Decrypting payload client-side...";
+        let payloadText = await response.text();
 
-        const decryptedText = await decryptRawPayload(encryptedBase64, passKey);
+        // Check if payload is still encrypted (OpenSSL Salted__ Base64)
+        if (payloadText.startsWith("U2FsdGVk")) {
+            const passKey = getDecryptionKey();
+            if (!passKey) {
+                modalBody.textContent = "Decryption passphrase is required to view encrypted reports.";
+                return;
+            }
+            modalBody.textContent = "Decrypting payload client-side...";
+            payloadText = await decryptRawPayload(payloadText, passKey);
+        }
 
         try {
-            const parsedJson = JSON.parse(decryptedText);
+            const parsedJson = JSON.parse(payloadText);
             modalBody.textContent = JSON.stringify(parsedJson, null, 2);
         } catch (e) {
-            modalBody.textContent = decryptedText;
+            modalBody.textContent = payloadText;
         }
     } catch (err) {
         modalBody.textContent = err.message || "Decryption failed or access denied.";
