@@ -36,7 +36,7 @@ async function handleReportRequest(url, env, headers) {
 __name(handleReportRequest, "handleReportRequest");
 
 async function fetchProtectedAsset(path, env, headers) {
-  const siteOrigin = (env.PUBLIC_SITE_ORIGIN || "https://elxmartin.github.io/apkrack").replace(/\/$/, "");
+  const siteOrigin = (env.PUBLIC_SITE_ORIGIN || "https://elxmartin.github.io/apk").replace(/\/$/, "");
   const assetResponse = await fetch(`${siteOrigin}${path}`, { cf: { cacheTtl: 60, cacheEverything: true } });
   if (!assetResponse.ok) return textResponse("Not found", assetResponse.status, headers);
   return new Response(assetResponse.body, {
