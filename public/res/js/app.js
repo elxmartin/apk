@@ -1,7 +1,7 @@
 let cachedHistory = [];
 let cveChartInstance = null;
 let notifications = [];
-const API_BASE = 'https://apkrack.locamartin.workers.dev';
+const API_BASE = window.API_BASE || 'https://apk.locamartin.workers.dev';
 
 /**
  * Key Utility Helpers
@@ -80,7 +80,7 @@ async function fetchStatus() {
         return;
     }
     try {
-        const response = await fetch(`${API_BASE}/api/status`, { cache: 'no-store' });
+        const response = await fetch(`${API_BASE}/api/status?v=${Date.now()}`, { cache: 'no-store' });
         if (!response.ok) throw new Error(`Status request failed (${response.status}).`);
         const data = JSON.parse(await decryptRawPayload(await response.text(), passKey));
 
@@ -235,7 +235,7 @@ async function viewReport(reportId, packageName, fileName) {
 
     try {
         if (!reportId) throw new Error('This protected report needs to be migrated by the pipeline.');
-        const workerUrl = `${API_BASE}/api/report?id=${encodeURIComponent(reportId)}&file=${encodeURIComponent(fileName)}`;
+        const workerUrl = `${API_BASE}/api/report?id=${encodeURIComponent(reportId)}&file=${encodeURIComponent(fileName)}&v=${Date.now()}`;
         const response = await fetch(workerUrl);
 
         if (!response.ok) {
