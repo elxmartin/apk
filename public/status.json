@@ -1,0 +1,625 @@
+{
+  "status": "Idle",
+  "completed": 303,
+  "total": 303,
+  "current_app": "None",
+  "history": [
+    {
+      "package": "ch.threema.app",
+      "app_name": "Ch",
+      "report_id": "73a2fc64ee5f129bd1fdad3a53ebc50388a9728c06ba33f8928a1ecd8fecafde",
+      "timestamp": "2026-10-09T03:55:43Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "com.meisterlabs.mindmeister",
+      "app_name": "Com",
+      "report_id": "afa309c837804a75b5e3b34cd5edd032b2322cc7c5170b04cb5966c34a98b324",
+      "timestamp": "2026-10-04T03:54:08Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "com.cs.vasco",
+      "app_name": "Com",
+      "report_id": "08881492cc09d7e1a2875aceffba2375d8d9e6498abae304eabb91335d24a4d2",
+      "timestamp": "2026-09-29T03:37:36Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "com.zumimall.dzees.junan",
+      "app_name": "Com",
+      "report_id": "b35cfbe5769080a7f24e2d549b7f52b79fdb2d3f756942c108590340cde4fdcf",
+      "timestamp": "2026-09-24T02:51:40Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "com.tmobile.tuesdays",
+      "app_name": "Com",
+      "report_id": "caacd8b76a07708a81b9d4ee1ab5a95230f8270a93132f89a3ae1d8818f7c333",
+      "timestamp": "2026-09-24T02:47:00Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "com.olo.noodles",
+      "app_name": "Com",
+      "report_id": "c57b3ab2605938d2de193126e08e3d83a22e2cf9e31bdb33b7726981cbd18c5d",
+      "timestamp": "2026-09-24T02:42:41Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "com.desmos.calculator",
+      "app_name": "Com",
+      "report_id": "4ac2548a8afb83a367662a71568c38e491de08042b45f5e9aeffa5e86ee0f921",
+      "timestamp": "2026-09-24T02:36:16Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "com.carrabbas",
+      "app_name": "Com",
+      "report_id": "672bada0b80a6bc358942e73b11d5877a6b34add19f25113b7f7ff2f9ba804db",
+      "timestamp": "2026-09-24T02:35:11Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "com.camineo.webparkDLDE",
+      "app_name": "Com",
+      "report_id": "794dac13fdafb73014add9a781538e4a9611e309ec2421ce2ba4a4c926b95706",
+      "timestamp": "2026-09-24T02:35:05Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "com.appswithlove.ent.academy",
+      "app_name": "Com",
+      "report_id": "b7059298ac4b8828ec4fa8146563163822139cd7a881f22d5f0fe816fe2cf08b",
+      "timestamp": "2026-09-24T02:31:36Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "com.brinker.chilis",
+      "app_name": "Com",
+      "report_id": "9754453d5b1f9f8d93531d1b0a3cd8c8a7410abc619e667387743d2b9b1e5c26",
+      "timestamp": "2026-09-20T02:43:52Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "com.dunkinbrands.otgo",
+      "app_name": "Com",
+      "report_id": "2fe122ed225ab227d4cb905f3de5499d66a8f4a0f393b1770084fae98b7047f8",
+      "timestamp": "2026-09-17T02:45:37Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "com.oneabsolute.mealplanner",
+      "app_name": "Com",
+      "report_id": "66255badf38148154a290c00a9c8d5e6aa02cec5625598c153d81ca2da0fafc1",
+      "timestamp": "2026-09-16T05:13:49Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    {
+      "package": "de.boersefrankfurt.xetra",
+      "app_name": "De",
+      "timestamp": "2026-09-15T03:56:41Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "4bfecfd922246a948279106d9ab85fbdd4e238bc7b7bf55156272480c1a576f8"
+    },
+    {
+      "package": "de.bayerischerund.areader",
+      "app_name": "De",
+      "timestamp": "2026-09-15T03:56:35Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "b2b992e12511ce7f435cc0496d651551a793ed8199a832b0f5c09fe2273a7b90"
+    },
+    {
+      "package": "com.punchh.moes",
+      "app_name": "Com",
+      "timestamp": "2026-09-15T03:35:19Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "304a9fb7a37f20bf272ed2b39a50460a6ac529603d07694e70739b5a5e23bf14"
+    },
+    {
+      "package": "com.motorola.moto",
+      "app_name": "Com",
+      "timestamp": "2026-09-15T03:26:35Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "e3fa410b585afc61df16b17fdac4d41ff1c5103f515e939e547a3930b82d4eae"
+    },
+    {
+      "package": "com.llamalab.automate",
+      "app_name": "Com",
+      "timestamp": "2026-09-15T03:18:53Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "6317d14a790f289a0aa74230f588f8190c89d67293772b2d133b21041919328a"
+    },
+    {
+      "package": "com.allegion.leopard",
+      "app_name": "Com",
+      "timestamp": "2026-09-15T02:57:22Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "e49ba55660db310822b12684e2c9d8c0b114251e1ae7c21b44ef8a3a0116ffff"
+    },
+    {
+      "package": "com.alarm.alarmmobile.android",
+      "app_name": "Com",
+      "timestamp": "2026-09-15T02:56:35Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "3b650fe84fd92c75bd1dbeaa80149a7a408749943e0d4a89a4aa29b4a67b9343"
+    },
+    {
+      "package": "com.aionav.apps.schweizergardeMuseumNaters",
+      "app_name": "Com",
+      "timestamp": "2026-09-15T02:56:12Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "ba7c24c82e8fdb2d1976589e7fff21aa8e029a2909f4de3ad49894f7c4e3a54c"
+    },
+    {
+      "package": "ch.ringier.illustre",
+      "app_name": "Ch",
+      "timestamp": "2026-09-15T02:53:28Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "6f0f1978ab4116c27863aa5179d58d8e58a78be6255e52a19b54f2f76d4b7924"
+    },
+    {
+      "package": "ch.delen.digital",
+      "app_name": "Ch",
+      "timestamp": "2026-09-15T02:50:53Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "8facc81ec8d1631f25e917fe1161f8a5e0f581c5232adf636473195841f6f652"
+    },
+    {
+      "package": "todolist.scheduleplanner.dailyplanner.todo.reminders",
+      "timestamp": "2026-09-05T06:40:32Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "bdb244dd55d12989204d8a5b0691fd5d8f18ff05a3df5b53d88fe8872d564569"
+    },
+    {
+      "package": "nl.rijksmuseum.mmt",
+      "timestamp": "2026-09-05T06:40:09Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "4e92843b7135ccb183f8c55a72263e4eb25764aefe5fbdd5c2a8b7d3da8bc1c1"
+    },
+    {
+      "package": "io.homeassistant.companion.android",
+      "timestamp": "2026-09-05T06:38:56Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "712b6a6c7d1f7869003fc35c0d232973742e7fe7da834a1dea00cc326a874f91"
+    },
+    {
+      "package": "io.gonative.android.xjndrq",
+      "timestamp": "2026-09-05T06:38:52Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "1c171e48f5184671dc1bae18bdeda250c196c5409a870304d99900aa4837737c"
+    },
+    {
+      "package": "com.ua.shop",
+      "timestamp": "2026-09-05T06:36:14Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "f797263e12491e272449e0baea6d126f4d765c062173e3988ece07ed8fa2f311"
+    },
+    {
+      "package": "com.threedflip.schweizerillustrierte",
+      "timestamp": "2026-09-05T06:35:44Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "08855b723b18e7181c94391ea6cd0a23d122aeed29dfe9f3208ff9f09c14e473"
+    },
+    {
+      "package": "com.tenbis.tbapp",
+      "timestamp": "2026-09-05T06:35:30Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "0e56f2b37a10952dde2e3fdfe97adaee4b3d19286bc6362ab811c72b6464f830"
+    },
+    {
+      "package": "com.starbucks.mobilecard",
+      "timestamp": "2026-09-05T06:35:03Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "d6a3e6d4593b0c17919430ea0972c2b11c2be7ee75a886917b2e861ed1cb8d0e"
+    },
+    {
+      "package": "com.scee.psxandroid",
+      "timestamp": "2026-09-05T06:34:20Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "1531f38b942c488f0341d1707883aff0df84fcdc095eace0285b2e04d45efb31"
+    },
+    {
+      "package": "com.pinterest.twa",
+      "timestamp": "2026-09-05T06:33:46Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "3e705de035c0882f05b50f46951c57b5ad3c4b4b4b98594c3693df1adb2330d9"
+    },
+    {
+      "package": "com.pinterest",
+      "timestamp": "2026-09-05T06:33:42Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "71b43f7c8baef5b784a2ab2ccbe581f72b4eb3d92ad605a52a7fc1a298eaa083"
+    },
+    {
+      "package": "com.pinelabs.emicatalogue.pinelabs",
+      "timestamp": "2026-09-05T06:33:37Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "785c51870a5b9b61463e5830f0a390ff57ce8274188e3d0f6a51373efa1970ba"
+    },
+    {
+      "package": "com.panera.bread",
+      "timestamp": "2026-09-05T06:33:24Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "38d2ca78168c297135ab2efb028ee9283513249bf829d6e0d9ee3a92db3c36ed"
+    },
+    {
+      "package": "com.paddypower_uk.livecasino",
+      "timestamp": "2026-09-05T06:33:19Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "c40c49cee9c537120ebd58ad47f911f78fbc1e444b21732bb41cbec79b777766"
+    },
+    {
+      "package": "com.okinc.okex.gp",
+      "timestamp": "2026-09-05T06:32:50Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "e7f2e712796d565705b1e24fddd3cdf3c287e9598e28fe8c54d91101848a9fea"
+    },
+    {
+      "package": "com.microsoft.planner",
+      "timestamp": "2026-09-05T06:31:16Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "0341a929d2a894f2595d7edd4dfb0e2f63eb0a4f1e14e6f4f942846cb956bdcc"
+    },
+    {
+      "package": "com.mattermost.rnbeta",
+      "timestamp": "2026-09-05T06:30:46Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "0ea1f059f4a9cfb1adbc78fa40d3e369eba967c16fdb211ffa2e53800cc58c36"
+    },
+    {
+      "package": "com.mattermost.rn",
+      "timestamp": "2026-09-05T06:30:40Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "a41a2113070cbb962d9992a61f1e400510b44e146d448ca3eb14cde3e8003b64"
+    },
+    {
+      "package": "com.keepersecurity.chat",
+      "timestamp": "2026-09-05T06:30:04Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "bc6fd56ccceac4602fe632c76f5f41dc6cc5aded4b388ebe93223cc35ab44870"
+    },
+    {
+      "package": "com.groupme.android",
+      "timestamp": "2026-09-05T06:29:26Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "59e6eeb82ce7418625f0158741b9c91e8bd8ee8f092f2675a4809f91690716c0"
+    },
+    {
+      "package": "com.gmail.jmartindev.timetune",
+      "timestamp": "2026-09-05T06:29:10Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "abb56ec5d5574886e264c6897bb58d2d458531afa0800a03bd298184e38e2999"
+    },
+    {
+      "package": "com.ft.news",
+      "timestamp": "2026-09-05T06:29:02Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "ba4bb38175682e4ffdb880dd0f4da7d5982592fe0149487f104bc30eb9e3662b"
+    },
+    {
+      "package": "com.fluxguide.deutschesmuseum",
+      "timestamp": "2026-09-05T06:28:59Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "61ef5eb294c556694fd5eead169b8515355a4d2ca4e348aa1608236149800c02"
+    },
+    {
+      "package": "com.ercom.cryptobox.release",
+      "timestamp": "2026-09-05T06:28:34Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "16d5bd457cc221e20d15c4eec1a3bc840237fe6512b53fb1a5d90664bbe07fc9"
+    },
+    {
+      "package": "com.ea.emiratesauction",
+      "timestamp": "2026-09-05T06:28:14Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "6c1d6ac3c06b5434ca14b50cd210966a9a89110b216822b4b6323d496f968f44"
+    },
+    {
+      "package": "com.dominospizza",
+      "timestamp": "2026-09-05T06:28:08Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "0d2d0ed1564b7a9e4dee38b8adf3287b88ffe87d7e8aad7acb0848a872651743"
+    },
+    {
+      "package": "com.booking",
+      "timestamp": "2026-09-05T06:24:20Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "bf37653a2bb704d70d392cb78baf1a3b30f3261f0ba1188953e2886afed5257c"
+    },
+    {
+      "package": "com.auth0.guardian",
+      "timestamp": "2026-09-05T06:21:45Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "5a109d2b247ef255315caa2c6daf06500bae47aa4347e71e5664bd912bfdd497"
+    },
+    {
+      "package": "com.appgenix.bizcal",
+      "timestamp": "2026-09-05T06:21:35Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "07b44f9f0b4497cb659c8f53e068a80db8913e06c1cfd5daf88dba58a85f2e1b"
+    },
+    {
+      "package": "ch.protonmail.android",
+      "timestamp": "2026-09-05T06:20:56Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "fa42f09cad415310b9b5cb1e8d7bdebf9ddbcf571fe3cd15f2827a56f157984c"
+    },
+    {
+      "package": "ch.bnb.bnb",
+      "timestamp": "2026-09-05T06:20:43Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      "report_id": "3f3c8e4a050d0a8f1c548a3619dd6280c52336b730f5b685f5c5d22ac95d28c3"
+    }
+  ]
+}
