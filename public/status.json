@@ -1,8 +1,8 @@
 {
-  "status": "Analyzing",
+  "status": "Idle",
   "completed": 320,
   "total": 320,
-  "current_app": "wannabit.io.cosmostaion",
+  "current_app": "None",
   "history": [
     {
       "package": "wannabit.io.cosmostaion",
