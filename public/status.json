@@ -1,9 +1,21 @@
 {
-  "status": "Idle",
-  "completed": 297,
-  "total": 297,
-  "current_app": "None",
+  "status": "Analyzing",
+  "completed": 35,
+  "total": 320,
+  "current_app": "com.beemdevelopment.aegis",
   "history": [
+    {
+      "package": "com.beemdevelopment.aegis",
+      "app_name": "Com",
+      "report_id": "7095a53aa59f58178dc667f7493410b0bb7f64e7cc520b00c12dd201a83088de",
+      "timestamp": "2026-11-07T04:03:01Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
     {
       "package": "ch.threema.app",
       "app_name": "Ch",
