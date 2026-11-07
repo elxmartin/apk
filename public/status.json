@@ -1,9 +1,21 @@
 {
   "status": "Analyzing",
-  "completed": 35,
+  "completed": 320,
   "total": 320,
-  "current_app": "com.beemdevelopment.aegis",
+  "current_app": "wannabit.io.cosmostaion",
   "history": [
+    {
+      "package": "wannabit.io.cosmostaion",
+      "app_name": "Wannabit",
+      "report_id": "f40ae85521c779aefd85864ffbf52dd94a844dacbf6e45742b774d70846f2bdb",
+      "timestamp": "2026-11-07T04:29:31Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
     {
       "package": "com.beemdevelopment.aegis",
       "app_name": "Com",
