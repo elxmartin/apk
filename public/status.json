@@ -1,8 +1,8 @@
 {
-  "status": "Analyzing",
-  "completed": 14,
+  "status": "Idle",
+  "completed": 306,
   "total": 306,
-  "current_app": "ca.skipthedishes.dashboard",
+  "current_app": "None",
   "history": [
     {
       "package": "ca.skipthedishes.dashboard",
