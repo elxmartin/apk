@@ -1,9 +1,21 @@
 {
-  "status": "Idle",
-  "completed": 295,
-  "total": 295,
-  "current_app": "None",
+  "status": "Analyzing",
+  "completed": 14,
+  "total": 306,
+  "current_app": "ca.skipthedishes.dashboard",
   "history": [
+    {
+      "package": "ca.skipthedishes.dashboard",
+      "app_name": "Ca",
+      "report_id": "4ba5e5998f12515552a16f7eca2b8fff20f4359637506e0be8de97cfecd527a0",
+      "timestamp": "2026-11-25T06:20:23Z",
+      "cve_summary": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
     {
       "package": "wannabit.io.cosmostaion",
       "app_name": "Wannabit",
